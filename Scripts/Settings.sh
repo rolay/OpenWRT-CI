@@ -6,27 +6,34 @@ if [ -z "$OWRT_THEME" ] || [ -z "$OWRT_IP" ] || [ -z "$OWRT_NAME" ] || [ -z "$OW
     exit 1
 fi
 
+CFG_FILE="./package/base-files/files/bin/config_generate"
+
 # 删除冲突插件
 rm -rf $(find ./ ../feeds/luci/ ../feeds/packages/ -maxdepth 3 -type d \( -iname "*argon*" -o -iname "*openclash*" -o -iname "*lucky*" \) -prune)
 
 
 # 修改默认主题
-find ./feeds/luci/collections/ -type f -name "Makefile" -exec sed -i "s/luci-theme-bootstrap/luci-theme-$OWRT_THEME/g" {} \;
+sed -i "s/luci-theme-bootstrap/luci-theme-$WRT_THEME/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 
-# 修改默认IP地址
-sed -i "s/192\.168\.[0-9]*\.[0-9]*/$OWRT_IP/g" ./package/base-files/luci/bin/config_generate
-
-# 修改默认主机名
-sed -i "s/hostname='.*'/hostname='$OWRT_NAME'/g" ./package/base-files/luci/bin/config_generate
+#修改默认IP地址
+sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
+#修改默认主机名
+sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
 # 修改默认时区
-sed -i "s/timezone='.*'/timezone='CST-8'/g" ./package/base-files/luci/bin/config_generate
-sed -i "/timezone='.*'/a\\\t\t\set system.@system[-1].zonename='Asia/Shanghai'" ./package/base-files/luci2/bin/config_generate
+sed -i "s/timezone='.*'/timezone='CST-8'/g" $CFG_FILE
+sed -i "/timezone='.*'/a\\\t\t\set system.@system[-1].zonename='Asia/Shanghai'" $CFG_FILE
 
 # 根据源码来修改（仅当链接包含 "lede" 时）
 if [[ $OWRT_URL == *"lede"* ]]; then
     # 修改默认时间格式
     find ./package/*/autocore/files/ -type f -name "index.htm" -exec sed -i 's/os.date()/os.date("%Y-%m-%d %H:%M:%S %A")/g' {} \;
 fi
+
+#配置文件修改
+echo "CONFIG_PACKAGE_luci=y" >> ./.config
+echo "CONFIG_LUCI_LANG_zh_Hans=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-theme-$WRT_THEME=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-$WRT_THEME-config=y" >> ./.config
 
 echo "OpenWrt 配置修改完成！"
