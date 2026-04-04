@@ -9,7 +9,7 @@ fi
 CFG_FILE="./package/base-files/files/bin/config_generate"
 
 # 删除冲突插件
-rm -rf $(find ./ ../feeds/luci/ ../feeds/packages/ -maxdepth 3 -type d \( -iname "*argon*" -o -iname "*openclash*" -o -iname "*lucky*" \) -prune)
+rm -rf $(find ./ ./feeds/luci/ ./feeds/packages/ -maxdepth 3 -type d \( -iname "*argon*" -o -iname "*openclash*" -o -iname "*lucky*" \) -prune)
 
 
 # 修改默认主题
