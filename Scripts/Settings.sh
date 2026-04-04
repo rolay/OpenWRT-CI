@@ -14,13 +14,13 @@ rm -rf $(find ./ ../feeds/luci/ ../feeds/packages/ -maxdepth 3 -type d \( -iname
 find ./feeds/luci/collections/ -type f -name "Makefile" -exec sed -i "s/luci-theme-bootstrap/luci-theme-$OWRT_THEME/g" {} \;
 
 # 修改默认IP地址
-sed -i "s/192\.168\.[0-9]*\.[0-9]*/$OWRT_IP/g" ./package/base-files/luci2/bin/config_generate
+sed -i "s/192\.168\.[0-9]*\.[0-9]*/$OWRT_IP/g" ./package/base-files/luci/bin/config_generate
 
 # 修改默认主机名
-sed -i "s/hostname='.*'/hostname='$OWRT_NAME'/g" ./package/base-files/luci2/bin/config_generate
+sed -i "s/hostname='.*'/hostname='$OWRT_NAME'/g" ./package/base-files/luci/bin/config_generate
 
 # 修改默认时区
-sed -i "s/timezone='.*'/timezone='CST-8'/g" ./package/base-files/luci2/bin/config_generate
+sed -i "s/timezone='.*'/timezone='CST-8'/g" ./package/base-files/luci/bin/config_generate
 sed -i "/timezone='.*'/a\\\t\t\set system.@system[-1].zonename='Asia/Shanghai'" ./package/base-files/luci2/bin/config_generate
 
 # 根据源码来修改（仅当链接包含 "lede" 时）
