@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 判断是否传入必要的参数
-if [ -z "$OWRT_THEME" ] || [ -z "$OWRT_IP" ] || [ -z "$OWRT_NAME" ] || [ -z "$OWRT_URL" ]; then
-    echo "错误: 必须设置 OWRT_THEME, OWRT_IP, OWRT_NAME 和 OWRT_URL 环境变量"
+if [ -z "$OOWRT_THEME" ] || [ -z "$OWRT_IP" ] || [ -z "$OWRT_NAME" ] || [ -z "$OWRT_URL" ]; then
+    echo "错误: 必须设置 OOWRT_THEME, OOWRT_IP, OWRT_NAME 和 OWRT_URL 环境变量"
     exit 1
 fi
 
@@ -13,12 +13,12 @@ rm -rf $(find ./ ./feeds/luci/ ./feeds/packages/ -maxdepth 3 -type d \( -iname "
 
 
 # 修改默认主题
-sed -i "s/luci-theme-bootstrap/luci-theme-$WRT_THEME/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
+sed -i "s/luci-theme-bootstrap/luci-theme-$OWRT_THEME/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
 
 #修改默认IP地址
-sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
+sed -i "s/192\.168\.[0-9]*\.[0-9]*/$OWRT_IP/g" $CFG_FILE
 #修改默认主机名
-sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
+sed -i "s/hostname='.*'/hostname='$OWRT_NAME'/g" $CFG_FILE
 
 # 修改默认时区
 sed -i "s/timezone='.*'/timezone='CST-8'/g" $CFG_FILE
@@ -33,7 +33,7 @@ fi
 #配置文件修改
 echo "CONFIG_PACKAGE_luci=y" >> ./.config
 echo "CONFIG_LUCI_LANG_zh_Hans=y" >> ./.config
-echo "CONFIG_PACKAGE_luci-theme-$WRT_THEME=y" >> ./.config
-echo "CONFIG_PACKAGE_luci-app-$WRT_THEME-config=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-theme-$OWRT_THEME=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-$OWRT_THEME-config=y" >> ./.config
 
 echo "OpenWrt 配置修改完成！"
