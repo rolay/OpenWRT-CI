@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 判断是否传入必要的参数
-if [ -z "$OOWRT_THEME" ] || [ -z "$OWRT_IP" ] || [ -z "$OWRT_NAME" ] || [ -z "$OWRT_URL" ]; then
-    echo "错误: 必须设置 OOWRT_THEME, OOWRT_IP, OWRT_NAME 和 OWRT_URL 环境变量"
+if [ -z "$OWRT_THEME" ] || [ -z "$OWRT_IP" ] || [ -z "$OWRT_NAME" ] || [ -z "$OWRT_URL" ]; then
+    echo "错误: 必须设置 OWRT_THEME, OWRT_IP, OWRT_NAME 和 OWRT_URL 环境变量"
     exit 1
 fi
 
